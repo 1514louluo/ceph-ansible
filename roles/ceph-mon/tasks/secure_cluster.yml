@@ -1,12 +1,15 @@
 ---
 - name: collect all the pools
-  command: rados lspools
+  command: >
+    {{ docker_exec_cmd }} rados --cluster {{ cluster }} lspools
+  changed_when: false
   register: ceph_pools
-  when: "{{ ceph_version.stdout | version_compare('0.94', '>=') }}"
+  check_mode: no
 
 - name: secure the cluster
-  command: ceph osd pool set {{ item[0] }} {{ item[1] }} true
+  command: >
+    {{ docker_exec_cmd }} ceph --cluster {{ cluster }} osd pool set {{ item[0] }} {{ item[1] }} true
+  changed_when: false
   with_nested:
-    - ceph_pools.stdout_lines
-    - secure_cluster_flags
-  when: "{{ ceph_version.stdout | version_compare('0.94', '>=') }}"
+    - "{{ ceph_pools.stdout_lines|default([]) }}"
+    - "{{ secure_cluster_flags }}"

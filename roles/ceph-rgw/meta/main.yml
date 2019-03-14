@@ -1,14 +1,14 @@
 ---
 galaxy_info:
+  company: Red Hat
   author: Sébastien Han
   description: Installs Ceph Rados Gateway
   license: Apache
-  min_ansible_version: 1.7
+  min_ansible_version: 2.7
   platforms:
-    - name: Ubuntu
+    - name: EL
       versions:
-        - trusty
-  categories:
+        - 7
+  galaxy_tags:
     - system
-dependencies:
-  - { role: ceph-common, when: not rgw_containerized_deployment }
+dependencies: []

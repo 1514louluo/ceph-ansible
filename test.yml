@@ -1,9 +1,16 @@
 ---
 - hosts: localhost
-  sudo: true
-  roles:
-    - ceph-common
-    - ceph-mon
-    - ceph-osd
-    - ceph-mds
-    - ceph-rgw
+  become: true
+  tasks:
+  - import_role:
+      name: ceph-common
+  - import_role:
+      name: ceph-mon
+  - import_role:
+      name: ceph-osd
+  - import_role:
+      name: ceph-mds
+  - import_role:
+      name: ceph-rgw
+  - import_role:
+      name: ceph-fetch-keys
